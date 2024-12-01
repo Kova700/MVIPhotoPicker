@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="album_does_not_exist">There are no photos in the gallery.</string>
+    <string name="album_load_failed">failed to load photos from gallery</string>
+    <string name="album_need_permission_content">Please allow media access permission to view photos.</string>
+    <string name="album_partial_permission_content">If you want to see the entire album and not just selected images, please allow media permissions.</string>
+    <string name="retry">Retry</string>
+    <string name="allow_permission">Allow Permission</string>
+    <string name="album_list">ALBUM LIST</string>
+    <string name="my_albums">My Albums</string>
+    <string name="album_photo_count">%1$d Images</string>
+</resources>

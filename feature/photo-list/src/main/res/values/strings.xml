@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="move_back">Move Back</string>
+    <string name="album_load_failed">failed to load photos from gallery</string>
+</resources>

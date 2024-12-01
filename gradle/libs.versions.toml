@@ -1,0 +1,147 @@
+[versions]
+compileSdk = "34"
+targetSdk = "34"
+minSdk = "28"
+
+major = "1"
+minor = "0"
+hotfix = "0"
+versionCode = "1"
+
+agp = "8.5.2"
+kotlin = "2.0.10"
+coroutines = "1.9.0"
+jetbrainsKotlinJvm = "1.9.10"
+testAndroidxCore = "1.6.1"
+coreKtx = "1.13.1"
+junit = "4.13.2"
+junitVersion = "1.2.1"
+mockito = "5.7.0"
+mockitoKotlin = "5.2.1"
+espressoCore = "3.6.1"
+androidxLifecycle = "2.8.7"
+
+composeBom = "2024.11.00"
+composeMaterial3 = "1.3.1"
+activityCompose = "1.9.3"
+navigationCompose = "2.8.4"
+accompanistPermissions = "0.34.0"
+kotlinCompilerExtension = "1.5.1"
+
+coilCompose = "2.6.0"
+coilSvg = "2.6.0"
+hilt = "2.51.1"
+ksp = "2.0.10-1.0.24"
+hiltNavigationCompose = "1.2.0"
+kotlinGradlePlugin = "1.9.0"
+kotlinxCollectionsImmutable = "0.3.7"
+
+[libraries]
+## AndroidX
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "androidxLifecycle" }
+androidx-lifecycle-runtime-compose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidxLifecycle" }
+androidx-lifecycle-viewmodel = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "androidxLifecycle" }
+
+## Compose
+compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
+compose-ui = { group = "androidx.compose.ui", name = "ui" }
+compose-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
+compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
+compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
+compose-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
+compose-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "composeMaterial3" }
+compose-activity = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
+kotlinx-collections-immutable = { group = "org.jetbrains.kotlinx", name = "kotlinx-collections-immutable", version.ref = "kotlinxCollectionsImmutable" }
+accompanist-permissions = { group = "com.google.accompanist", name = "accompanist-permissions", version.ref = "accompanistPermissions" }
+
+## Test
+test-androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
+test-androidx-junit-ktx = { group = "androidx.test.ext", name = "junit-ktx", version.ref = "junitVersion" }
+test-androidx-core-ktx = { group = "androidx.test", name = "core-ktx", version.ref = "testAndroidxCore" }
+test-androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
+test-compose-ui-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
+test-compose-ui-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+test-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines" }
+
+## Test-Mockito
+test-mockito-core = { group = "org.mockito", name = "mockito-core", version.ref = "mockito" }
+test-mockito-inline = { group = "org.mockito", name = "mockito-inline", version.ref = "mockito" }
+test-mockito-kotlin = { group = "org.mockito.kotlin", name = "mockito-kotlin", version.ref = "mockitoKotlin" }
+
+# Hilt
+hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
+hilt-android-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
+hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
+
+## Coil
+coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coilCompose" }
+coil-svg = { group = "io.coil-kt", name = "coil-svg", version.ref = "coilSvg" }
+
+# gradle-plugin
+gradle-plugin-kotlin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
+gradle-plugin-ksp = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
+gradle-plugin-android = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
+gradle-plugin-hilt = { group = "com.google.dagger", name = "hilt-android-gradle-plugin", version.ref = "hilt" }
+gradle-plugin-compose-compiler = { group = "org.jetbrains.kotlin", name = "compose-compiler-gradle-plugin", version.ref = "kotlin" }
+kotlin-gradle-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlinGradlePlugin" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+android-library = { id = "com.android.library", version.ref = "agp" }
+jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+android-hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+
+
+[bundles]
+compose = [
+    "compose-ui",
+    "compose-ui-graphics",
+    "compose-ui-tooling",
+    "compose-ui-tooling-preview",
+    "compose-material3",
+    "compose-navigation",
+    "compose-activity",
+    "kotlinx-collections-immutable",
+    "accompanist-permissions",
+]
+
+coil = [
+    "coil-compose",
+    "coil-svg",
+]
+
+hilt = [
+    "hilt-android",
+]
+
+unit-test = [
+    "test-coroutines",
+    "test-mockito-core",
+    "test-mockito-inline",
+    "test-mockito-kotlin",
+    "junit"
+]
+
+android-test = [
+    "test-androidx-junit",
+    "test-androidx-junit-ktx",
+    "test-androidx-core-ktx",
+    "test-androidx-espresso-core",
+    "test-compose-ui-junit4",
+]
+
+debug-test = [
+    "compose-ui-tooling",
+    "test-compose-ui-manifest"
+]
+
+androidx-lifecycle = [
+    "androidx-lifecycle-runtime-ktx",
+    "androidx-lifecycle-runtime-compose",
+    "androidx-lifecycle-viewmodel"
+]
