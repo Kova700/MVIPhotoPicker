@@ -32,7 +32,7 @@ To solve these issues, it was necessary to refactor the ViewModel by clearly sep
 To achieve this, the responsibility for state changes was delegated to a separate class called `Reducer`. The `Reducer` takes the current state and a `Mutation` (an intended state change) to generate a new state, 
 ensuring that state modifications only happen in a defined location.
 
-The business logic responsibility was moved to the **Action Processor**. Instead of the ViewModel directly handling business logic, the Action Processor now processes actions and emits a flow of Mutations and Events. 
+The business logic responsibility was moved to the `Action Processor`. Instead of the ViewModel directly handling business logic, the Action Processor now processes actions and emits a flow of Mutations and Events. 
 (Mutations are emitted when state changes are needed, while Events are emitted when UIEvent are required.)
 
 There might be concerns that Action Processors could become bloated, but by separating Action Processors based on business logic concerns, 
