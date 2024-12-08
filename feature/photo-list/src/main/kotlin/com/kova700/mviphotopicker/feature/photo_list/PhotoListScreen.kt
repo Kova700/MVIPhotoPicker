@@ -128,31 +128,31 @@ fun PhotoItemsPhotoListScreenPreview() {
 					Photo(
 						id = 1,
 						albumId = 1,
-						uri = Uri.parse("https://picsum.photos/200/300"),
+						uri = "https://picsum.photos/200/300",
 						dateAdded = Date()
 					),
 					Photo(
 						id = 2,
 						albumId = 2,
-						uri = Uri.parse("https://picsum.photos/200/300"),
+						uri = "https://picsum.photos/200/300",
 						dateAdded = Date()
 					),
 					Photo(
 						id = 3,
 						albumId = 3,
-						uri = Uri.parse("https://picsum.photos/200/300"),
+						uri = "https://picsum.photos/200/300",
 						dateAdded = Date()
 					),
 					Photo(
 						id = 4,
 						albumId = 4,
-						uri = Uri.parse("https://picsum.photos/200/300"),
+						uri = "https://picsum.photos/200/300",
 						dateAdded = Date()
 					),
 					Photo(
 						id = 5,
 						albumId = 5,
-						uri = Uri.parse("https://picsum.photos/200/300"),
+						uri = "https://picsum.photos/200/300",
 						dateAdded = Date()
 					),
 				)

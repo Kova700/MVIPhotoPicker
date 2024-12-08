@@ -16,8 +16,10 @@ testAndroidxCore = "1.6.1"
 coreKtx = "1.13.1"
 junit = "4.13.2"
 junitVersion = "1.2.1"
-mockito = "5.7.0"
-mockitoKotlin = "5.2.1"
+junitVintageEngine = "5.10.0"
+kotest = "5.7.2"
+mockk = "1.13.5"
+turbine = "1.0.0"
 espressoCore = "3.6.1"
 androidxLifecycle = "2.8.7"
 
@@ -63,12 +65,11 @@ test-androidx-espresso-core = { group = "androidx.test.espresso", name = "espres
 test-compose-ui-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 test-compose-ui-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
+junit-vintage-engine = { group = "org.junit.vintage", name = "junit-vintage-engine", version.ref = "junitVintageEngine" }
 test-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines" }
-
-## Test-Mockito
-test-mockito-core = { group = "org.mockito", name = "mockito-core", version.ref = "mockito" }
-test-mockito-inline = { group = "org.mockito", name = "mockito-inline", version.ref = "mockito" }
-test-mockito-kotlin = { group = "org.mockito.kotlin", name = "mockito-kotlin", version.ref = "mockitoKotlin" }
+kotest-assertions = { group = "io.kotest", name = "kotest-assertions-core", version.ref = "kotest" }
+mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
+turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine" }
 
 # Hilt
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
@@ -85,7 +86,6 @@ gradle-plugin-ksp = { group = "com.google.devtools.ksp", name = "com.google.devt
 gradle-plugin-android = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
 gradle-plugin-hilt = { group = "com.google.dagger", name = "hilt-android-gradle-plugin", version.ref = "hilt" }
 gradle-plugin-compose-compiler = { group = "org.jetbrains.kotlin", name = "compose-compiler-gradle-plugin", version.ref = "kotlin" }
-kotlin-gradle-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlinGradlePlugin" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -120,10 +120,11 @@ hilt = [
 ]
 
 unit-test = [
+    "kotest-assertions",
     "test-coroutines",
-    "test-mockito-core",
-    "test-mockito-inline",
-    "test-mockito-kotlin",
+    "junit-vintage-engine",
+    "mockk",
+    "turbine",
     "junit"
 ]
 

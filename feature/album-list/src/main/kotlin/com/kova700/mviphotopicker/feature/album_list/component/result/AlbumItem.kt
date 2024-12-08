@@ -1,6 +1,5 @@
 package com.kova700.mviphotopicker.feature.album_list.component.result
 
-import android.net.Uri
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
@@ -20,9 +19,9 @@ import androidx.compose.ui.unit.dp
 import coil.compose.SubcomposeAsyncImage
 import com.kova700.mviphotopicker.core.data.album.external.model.Album
 import com.kova700.mviphotopicker.core.design_system.component.PhotoPlaceholder
+import com.kova700.mviphotopicker.core.design_system.theme.DefaultTypography
 import com.kova700.mviphotopicker.core.design_system.theme.LightBlue
 import com.kova700.mviphotopicker.core.design_system.theme.MediumBlue
-import com.kova700.mviphotopicker.core.design_system.theme.DefaultTypography
 import com.kova700.mviphotopicker.feature.album_list.R
 
 @Composable
@@ -80,7 +79,7 @@ fun AlbumItemPreview() {
 			id = 0,
 			title = "Album Title",
 			photos = listOf(),
-			coverPhotoUri = Uri.parse(""),
+			coverPhotoUri = "testUri",
 		),
 		onClick = {}
 	)

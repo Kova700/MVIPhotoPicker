@@ -1,10 +1,8 @@
 package com.kova700.mviphotopicker.core.external_data.album
 
-import android.net.Uri
-
 data class AlbumPhotoDTO(
 	val photoId: Long,
-	val photoUri: Uri,
+	val photoUri: String,
 	val albumId: Long,
 	val albumName: String,
 	val dateAddedInSeconds: Long,

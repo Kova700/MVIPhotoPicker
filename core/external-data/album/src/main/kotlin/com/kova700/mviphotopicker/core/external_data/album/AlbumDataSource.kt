@@ -65,7 +65,7 @@ class AlbumDataSource @Inject constructor(
 	private fun Cursor.getRow(): AlbumPhotoDTO? =
 		try {
 			val photoId = getLong(getColumnIndexOrThrow(INDEX_PHOTO_ID))
-			val photoUri = getMediaUri()
+			val photoUri = getMediaUri().toString()
 			val albumId = getLong(getColumnIndexOrThrow(INDEX_ALBUM_ID))
 			val albumName = getString(getColumnIndexOrThrow(INDEX_ALBUM_NAME))
 			val dateAddedInSeconds = getLong(getColumnIndexOrThrow(INDEX_DATE_ADDED))
