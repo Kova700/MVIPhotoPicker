@@ -8,6 +8,7 @@
 | Architecture | Clean-Architecture, Multi-Module |
 | Asynchronous | Coroutine, Flow |
 | DI | Dagger-Hilt |
+| Test | Junit, Kotest , Mockk, Turbine |
 | Build | Version Catalog, Precompiled-Script-Plugin   |
 | ETC | Jetpack-Compose, Coil |
 </br>
