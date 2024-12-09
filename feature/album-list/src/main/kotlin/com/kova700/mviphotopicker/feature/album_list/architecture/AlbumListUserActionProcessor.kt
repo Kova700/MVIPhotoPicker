@@ -18,7 +18,7 @@ class AlbumListUserActionProcessor @Inject constructor(
 				AlbumListAction.RequestFullPermission -> requestFullPermission()
 				AlbumListAction.DenyPermission -> denyPermission()
 				AlbumListAction.GrantFullPermission -> grantFullPermission()
-				AlbumListAction.GrantPartialPermission -> GrantPartialPermission()
+				AlbumListAction.GrantPartialPermission -> grantPartialPermission()
 
 				is AlbumListAction.LoadInitAlbums,
 				AlbumListAction.CheckPermission -> Unit
@@ -46,7 +46,7 @@ class AlbumListUserActionProcessor @Inject constructor(
 		emit(AlbumListMutation.UpdatePermissionState(PermissionState.Granted) to null)
 	}
 
-	private suspend fun FlowCollector<Pair<AlbumListMutation?, AlbumListEvent?>>.GrantPartialPermission() {
+	private suspend fun FlowCollector<Pair<AlbumListMutation?, AlbumListEvent?>>.grantPartialPermission() {
 		emit(AlbumListMutation.UpdatePermissionState(PermissionState.PartialGranted) to null)
 	}
 
