@@ -38,18 +38,6 @@ class AlbumListUserActionProcessorTest : BehaviorSpec() {
 			}
 		}
 
-		Given("invoked RequestFullPermission Action") {
-			val requestFullPermissionAction = AlbumListAction.RequestFullPermission
-			Then("emit null & RequestFullPermission Event") {
-				runTest {
-					actionProcessor(requestFullPermissionAction).test {
-						awaitItem() shouldBe (null to AlbumListEvent.RequestFullPermission)
-						awaitComplete()
-					}
-				}
-			}
-		}
-
 		Given("invoked DenyPermission Action") {
 			val denyPermissionAction = AlbumListAction.DenyPermission
 			Then("emit ShowNeedPermission Mutation & null") {

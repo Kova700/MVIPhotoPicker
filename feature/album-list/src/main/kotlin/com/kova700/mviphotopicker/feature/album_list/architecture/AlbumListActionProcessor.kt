@@ -19,7 +19,6 @@ class AlbumListActionProcessor @Inject constructor(
 
 				is AlbumListAction.ClickAlbum,
 				AlbumListAction.RequestPermission,
-				AlbumListAction.RequestFullPermission,
 				AlbumListAction.GrantFullPermission,
 				AlbumListAction.GrantPartialPermission,
 				AlbumListAction.DenyPermission -> Unit

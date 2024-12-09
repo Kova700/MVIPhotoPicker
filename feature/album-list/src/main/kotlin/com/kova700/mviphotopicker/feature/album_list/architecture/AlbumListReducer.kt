@@ -28,7 +28,10 @@ class AlbumListReducer @Inject constructor(
 		copy(uiState = AlbumListUiState.InitError)
 
 	private fun AlbumListState.mutateToShowContent(albums: List<Album>) =
-		copy(uiState = AlbumListUiState.AlbumItems(albums.toImmutableList()))
+		copy(
+			uiState = if (albums.isEmpty()) AlbumListUiState.Empty
+			else AlbumListUiState.AlbumItems(albums.toImmutableList())
+		)
 
 	private fun AlbumListState.mutateToShowNeedPermission() =
 		copy(uiState = AlbumListUiState.NeedPermission)

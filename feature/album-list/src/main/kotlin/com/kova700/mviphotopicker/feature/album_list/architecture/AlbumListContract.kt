@@ -35,7 +35,7 @@ data class AlbumListState(
 
 	companion object {
 		val DEFAULT = AlbumListState(
-			uiState = AlbumListUiState.NeedPermission,
+			uiState = AlbumListUiState.DEFAULT,
 			permissionState = PermissionState.Denied,
 		)
 	}
@@ -67,12 +67,15 @@ sealed interface AlbumListUiState : UiState {
 			)
 		}
 	}
+
+	companion object {
+		val DEFAULT = InitLoading
+	}
 }
 
 sealed interface AlbumListAction : Action {
 	data object LoadInitAlbums : AlbumListAction
 	data object RequestPermission : AlbumListAction
-	data object RequestFullPermission : AlbumListAction
 	data object CheckPermission : AlbumListAction
 
 	data class ClickAlbum(val albumId: Long) : AlbumListAction
@@ -94,6 +97,5 @@ sealed interface AlbumListMutation : Mutation {
 sealed interface AlbumListEvent : UiEvent {
 	data class NavigateToPhotoList(val albumId: Long) : AlbumListEvent
 	data object RequestPermission : AlbumListEvent
-	data object RequestFullPermission : AlbumListEvent
 	data object CheckPermission : AlbumListEvent
 }

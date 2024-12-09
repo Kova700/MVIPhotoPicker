@@ -15,7 +15,6 @@ class AlbumListUserActionProcessor @Inject constructor(
 			when (action) {
 				is AlbumListAction.ClickAlbum -> clickAlbum(action.albumId)
 				AlbumListAction.RequestPermission -> requestPermission()
-				AlbumListAction.RequestFullPermission -> requestFullPermission()
 				AlbumListAction.DenyPermission -> denyPermission()
 				AlbumListAction.GrantFullPermission -> grantFullPermission()
 				AlbumListAction.GrantPartialPermission -> grantPartialPermission()
@@ -32,10 +31,6 @@ class AlbumListUserActionProcessor @Inject constructor(
 
 	private suspend fun FlowCollector<Pair<AlbumListMutation?, AlbumListEvent?>>.requestPermission() {
 		emit(null to AlbumListEvent.RequestPermission)
-	}
-
-	private suspend fun FlowCollector<Pair<AlbumListMutation?, AlbumListEvent?>>.requestFullPermission() {
-		emit(null to AlbumListEvent.RequestFullPermission)
 	}
 
 	private suspend fun FlowCollector<Pair<AlbumListMutation?, AlbumListEvent?>>.denyPermission() {

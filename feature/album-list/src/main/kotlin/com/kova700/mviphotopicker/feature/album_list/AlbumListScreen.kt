@@ -1,5 +1,3 @@
-import android.Manifest
-import android.os.Build
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -20,7 +18,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.repeatOnLifecycle
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
-import com.google.accompanist.permissions.shouldShowRationale
 import com.kova700.mviphotopicker.core.design_system.theme.LightGray
 import com.kova700.mviphotopicker.core.permission.galleryPermissions
 import com.kova700.mviphotopicker.core.permission.getSettingIntent
@@ -67,6 +64,8 @@ fun AlbumListRoute(
 						albumListViewModel.process(AlbumListAction.GrantPartialPermission)
 						albumListViewModel.process(AlbumListAction.LoadInitAlbums)
 					}
+
+					else -> albumListViewModel.process(AlbumListAction.DenyPermission)
 				}
 			}
 		}
@@ -79,16 +78,7 @@ fun AlbumListRoute(
 	}
 
 	fun requestPermission() {
-		val shouldShowRationale = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-			galleryPermissionState.revokedPermissions.firstOrNull {
-				it.permission == Manifest.permission.READ_MEDIA_IMAGES
-			}?.status?.shouldShowRationale ?: false
-		} else {
-			galleryPermissionState.shouldShowRationale
-		}
-
-		if (shouldShowRationale) context.startActivity(context.getSettingIntent())
-		else galleryPermissionState.launchMultiplePermissionRequest()
+		context.startActivity(context.getSettingIntent())
 	}
 
 	LaunchedEffect(lifecycleOwner.lifecycle) {
@@ -98,7 +88,6 @@ fun AlbumListRoute(
 					is AlbumListEvent.NavigateToPhotoList -> navigateToPhotoList(event.albumId)
 					AlbumListEvent.RequestPermission -> requestPermission()
 					AlbumListEvent.CheckPermission -> galleryPermissionState.launchMultiplePermissionRequest()
-					AlbumListEvent.RequestFullPermission -> context.startActivity(context.getSettingIntent())
 				}
 			}
 		}
@@ -109,7 +98,7 @@ fun AlbumListRoute(
 		onClickAlbum = { id -> albumListViewModel.process(AlbumListAction.ClickAlbum(id)) },
 		onClickInitRetry = { albumListViewModel.process(AlbumListAction.LoadInitAlbums) },
 		onClickPerMissionRetry = { albumListViewModel.process(AlbumListAction.RequestPermission) },
-		onClickFullPermissionGranted = { albumListViewModel.process(AlbumListAction.RequestFullPermission) }
+		onClickFullPermissionGranted = { albumListViewModel.process(AlbumListAction.RequestPermission) }
 	)
 }
 
