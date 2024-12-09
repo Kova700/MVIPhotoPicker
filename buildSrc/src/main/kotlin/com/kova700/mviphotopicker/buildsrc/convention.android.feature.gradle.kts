@@ -27,3 +27,7 @@ dependencies {
 	androidTestImplementation(libs.findBundle("android-test").get())
 	debugImplementation(libs.findBundle("debug-test").get())
 }
+
+tasks.withType<Test> {
+	useJUnitPlatform()
+}

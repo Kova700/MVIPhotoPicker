@@ -68,6 +68,8 @@ junit = { group = "junit", name = "junit", version.ref = "junit" }
 junit-vintage-engine = { group = "org.junit.vintage", name = "junit-vintage-engine", version.ref = "junitVintageEngine" }
 test-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines" }
 kotest-assertions = { group = "io.kotest", name = "kotest-assertions-core", version.ref = "kotest" }
+kotest-property = { group = "io.kotest", name = "kotest-property", version.ref = "kotest" }
+kotest-runner = { group = "io.kotest", name = "kotest-runner-junit5", version.ref = "kotest" }
 mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
 turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine" }
 
@@ -121,6 +123,8 @@ hilt = [
 
 unit-test = [
     "kotest-assertions",
+    "kotest-property",
+    "kotest-runner",
     "test-coroutines",
     "junit-vintage-engine",
     "mockk",
@@ -133,7 +137,6 @@ android-test = [
     "test-androidx-junit-ktx",
     "test-androidx-core-ktx",
     "test-androidx-espresso-core",
-    "test-compose-ui-junit4",
 ]
 
 debug-test = [

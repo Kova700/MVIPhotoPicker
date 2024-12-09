@@ -20,6 +20,7 @@ dependencies {
 	"implementation"(libs.findBundle("compose").get())
 	"implementation"(libs.findLibrary("hilt-navigation-compose").get())
 
+	"testImplementation"(libs.findLibrary("test-compose-ui-junit4").get())
 	"testImplementation"(libs.findBundle("unit-test").get())
 	"androidTestImplementation"(libs.findBundle("android-test").get())
 	"debugImplementation"(libs.findBundle("debug-test").get())
