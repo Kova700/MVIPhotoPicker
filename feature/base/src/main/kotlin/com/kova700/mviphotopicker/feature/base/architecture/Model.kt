@@ -1,7 +1,7 @@
 package com.kova700.mviphotopicker.feature.base.architecture
 
+import com.kova700.mviphotopicker.common.DispatcherProvider
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -18,13 +18,14 @@ class Model<S : UiState, A : Action, M : Mutation, E : UiEvent>(
 	private val actionProcessors: Collection<ActionProcessor<A, M, E>>,
 	private val reducers: Collection<Reducer<M, S>>,
 	private val coroutineScope: CoroutineScope,
+	private val dispatcherProvider: DispatcherProvider,
 	private val _uiState: MutableStateFlow<S>,
 	private val _event: Channel<E>,
 ) {
 	val uiState get() = _uiState.asStateFlow()
 	val event get() = _event.receiveAsFlow()
 
-	fun process(action: A) = coroutineScope.launch(Dispatchers.Default) {
+	fun process(action: A) = coroutineScope.launch(dispatcherProvider.default) {
 		actionProcessors.map { actionProcessor -> actionProcessor(action) }
 			.merge()
 			.collect { (mutation, event) ->

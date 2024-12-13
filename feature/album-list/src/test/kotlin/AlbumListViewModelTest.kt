@@ -1,5 +1,6 @@
 import androidx.lifecycle.SavedStateHandle
 import app.cash.turbine.test
+import com.kova700.mviphotopicker.common.TestDispatcherProvider
 import com.kova700.mviphotopicker.core.data.album.external.model.Album
 import com.kova700.mviphotopicker.core.data.album.external.repository.AlbumRepository
 import com.kova700.mviphotopicker.feature.album_list.AlbumListViewModel
@@ -16,17 +17,20 @@ import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.collections.immutable.toImmutableList
+import kotlinx.coroutines.test.TestScope
+import kotlinx.coroutines.test.runTest
 
 class AlbumListViewModelTest : BehaviorSpec() {
 
 	private val albumRepository = mockk<AlbumRepository>()
 
-	private fun albumListViewModel() = AlbumListViewModel(
+	private fun TestScope.albumListViewModel() = AlbumListViewModel(
 		savedStateHandle = SavedStateHandle().apply {
 			set(IS_TEST_FLAG, true)
 		},
 		albumListActionProcessor = AlbumListActionProcessor(albumRepository),
 		albumListUserActionProcessor = AlbumListUserActionProcessor(),
+		dispatcherProvider = TestDispatcherProvider(testScheduler),
 		albumListReducer = AlbumListReducer(),
 	)
 
@@ -53,13 +57,15 @@ class AlbumListViewModelTest : BehaviorSpec() {
 				coEvery { albumRepository.getAlbums() } returns fakeAlbums
 
 				Then("emit state with albums") {
-					with(albumListViewModel()) {
-						process(loadInitAlbumsAction)
-						uiState.test {
-							awaitItem().uiState shouldBe AlbumListUiState.InitLoading
-							awaitItem().uiState shouldBe AlbumListUiState.AlbumItems(fakeAlbums.toImmutableList())
+					runTest {
+						with(albumListViewModel()) {
+							process(loadInitAlbumsAction)
+							uiState.test {
+								awaitItem().uiState shouldBe AlbumListUiState.InitLoading
+								awaitItem().uiState shouldBe AlbumListUiState.AlbumItems(fakeAlbums.toImmutableList())
+							}
+							event.test { expectNoEvents() }
 						}
-						event.test { expectNoEvents() }
 					}
 				}
 			}
@@ -68,13 +74,15 @@ class AlbumListViewModelTest : BehaviorSpec() {
 				coEvery { albumRepository.getAlbums() } returns emptyList()
 
 				Then("emit state with Empty") {
-					with(albumListViewModel()) {
-						process(loadInitAlbumsAction)
-						uiState.test {
-							awaitItem().uiState shouldBe AlbumListUiState.InitLoading
-							awaitItem().uiState shouldBe AlbumListUiState.Empty
+					runTest {
+						with(albumListViewModel()) {
+							process(loadInitAlbumsAction)
+							uiState.test {
+								awaitItem().uiState shouldBe AlbumListUiState.InitLoading
+								awaitItem().uiState shouldBe AlbumListUiState.Empty
+							}
+							event.test { expectNoEvents() }
 						}
-						event.test { expectNoEvents() }
 					}
 				}
 			}
@@ -83,13 +91,15 @@ class AlbumListViewModelTest : BehaviorSpec() {
 				coEvery { albumRepository.getAlbums() } throws Exception()
 
 				Then("emit state with InitError") {
-					with(albumListViewModel()) {
-						process(loadInitAlbumsAction)
-						uiState.test {
-							awaitItem().uiState shouldBe AlbumListUiState.InitLoading
-							awaitItem().uiState shouldBe AlbumListUiState.InitError
+					runTest {
+						with(albumListViewModel()) {
+							process(loadInitAlbumsAction)
+							uiState.test {
+								awaitItem().uiState shouldBe AlbumListUiState.InitLoading
+								awaitItem().uiState shouldBe AlbumListUiState.InitError
+							}
+							event.test { expectNoEvents() }
 						}
-						event.test { expectNoEvents() }
 					}
 				}
 			}
@@ -99,13 +109,15 @@ class AlbumListViewModelTest : BehaviorSpec() {
 			val requestPermissionAction = AlbumListAction.RequestPermission
 
 			Then("emit event with RequestPermission") {
-				with(albumListViewModel()) {
-					process(requestPermissionAction)
-					uiState.test {
-						awaitItem().uiState shouldBe AlbumListUiState.DEFAULT
-					}
-					event.test {
-						awaitItem() shouldBe AlbumListEvent.RequestPermission
+				runTest {
+					with(albumListViewModel()) {
+						process(requestPermissionAction)
+						uiState.test {
+							awaitItem().uiState shouldBe AlbumListUiState.DEFAULT
+						}
+						event.test {
+							awaitItem() shouldBe AlbumListEvent.RequestPermission
+						}
 					}
 				}
 			}
@@ -115,13 +127,15 @@ class AlbumListViewModelTest : BehaviorSpec() {
 			val checkPermissionAction = AlbumListAction.CheckPermission
 
 			Then("emit event with CheckPermission") {
-				with(albumListViewModel()) {
-					process(checkPermissionAction)
-					uiState.test {
-						awaitItem().uiState shouldBe AlbumListUiState.DEFAULT
-					}
-					event.test {
-						awaitItem() shouldBe AlbumListEvent.CheckPermission
+				runTest {
+					with(albumListViewModel()) {
+						process(checkPermissionAction)
+						uiState.test {
+							awaitItem().uiState shouldBe AlbumListUiState.DEFAULT
+						}
+						event.test {
+							awaitItem() shouldBe AlbumListEvent.CheckPermission
+						}
 					}
 				}
 			}
@@ -132,13 +146,15 @@ class AlbumListViewModelTest : BehaviorSpec() {
 			val clickAlbumAction = AlbumListAction.ClickAlbum(albumId)
 
 			Then("emit event with NavigateToPhotoList") {
-				with(albumListViewModel()) {
-					process(clickAlbumAction)
-					uiState.test {
-						awaitItem().uiState shouldBe AlbumListUiState.DEFAULT
-					}
-					event.test {
-						awaitItem() shouldBe AlbumListEvent.NavigateToPhotoList(1)
+				runTest {
+					with(albumListViewModel()) {
+						process(clickAlbumAction)
+						uiState.test {
+							awaitItem().uiState shouldBe AlbumListUiState.DEFAULT
+						}
+						event.test {
+							awaitItem() shouldBe AlbumListEvent.NavigateToPhotoList(1)
+						}
 					}
 				}
 			}
@@ -148,13 +164,15 @@ class AlbumListViewModelTest : BehaviorSpec() {
 			val denyPermissionAction = AlbumListAction.DenyPermission
 
 			Then("emit state with NeedPermission") {
-				with(albumListViewModel()) {
-					process(denyPermissionAction)
-					uiState.test {
-						awaitItem().uiState shouldBe AlbumListUiState.DEFAULT
-						awaitItem().uiState shouldBe AlbumListUiState.NeedPermission
+				runTest {
+					with(albumListViewModel()) {
+						process(denyPermissionAction)
+						uiState.test {
+							awaitItem().uiState shouldBe AlbumListUiState.DEFAULT
+							awaitItem().uiState shouldBe AlbumListUiState.NeedPermission
+						}
+						event.test { expectNoEvents() }
 					}
-					event.test { expectNoEvents() }
 				}
 			}
 		}
@@ -163,13 +181,15 @@ class AlbumListViewModelTest : BehaviorSpec() {
 			val grantFullPermissionAction = AlbumListAction.GrantFullPermission
 
 			Then("emit state with PermissionState Granted") {
-				with(albumListViewModel()) {
-					process(grantFullPermissionAction)
-					uiState.test {
-						awaitItem().uiState shouldBe AlbumListUiState.DEFAULT
-						awaitItem().permissionState shouldBe PermissionState.Granted
+				runTest {
+					with(albumListViewModel()) {
+						process(grantFullPermissionAction)
+						uiState.test {
+							awaitItem().uiState shouldBe AlbumListUiState.DEFAULT
+							awaitItem().permissionState shouldBe PermissionState.Granted
+						}
+						event.test { expectNoEvents() }
 					}
-					event.test { expectNoEvents() }
 				}
 			}
 		}
@@ -178,13 +198,15 @@ class AlbumListViewModelTest : BehaviorSpec() {
 			val grantPartialPermissionAction = AlbumListAction.GrantPartialPermission
 
 			Then("emit state with PermissionState PartialGranted") {
-				with(albumListViewModel()) {
-					process(grantPartialPermissionAction)
-					uiState.test {
-						awaitItem().uiState shouldBe AlbumListUiState.DEFAULT
-						awaitItem().permissionState shouldBe PermissionState.PartialGranted
+				runTest {
+					with(albumListViewModel()) {
+						process(grantPartialPermissionAction)
+						uiState.test {
+							awaitItem().uiState shouldBe AlbumListUiState.DEFAULT
+							awaitItem().permissionState shouldBe PermissionState.PartialGranted
+						}
+						event.test { expectNoEvents() }
 					}
-					event.test { expectNoEvents() }
 				}
 			}
 		}

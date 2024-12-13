@@ -25,4 +25,5 @@ dependencies {
 	implementation(project(":core:external-data:internal"))
 	implementation(project(":core:data:sticker:internal"))
 	implementation(project(":core:permission"))
+	implementation(project(":core:common"))
 }

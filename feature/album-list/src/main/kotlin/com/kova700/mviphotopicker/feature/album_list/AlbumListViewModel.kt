@@ -2,6 +2,7 @@ package com.kova700.mviphotopicker.feature.album_list
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import com.kova700.mviphotopicker.common.DispatcherProvider
 import com.kova700.mviphotopicker.feature.album_list.architecture.AlbumListAction
 import com.kova700.mviphotopicker.feature.album_list.architecture.AlbumListActionProcessor
 import com.kova700.mviphotopicker.feature.album_list.architecture.AlbumListReducer
@@ -17,12 +18,14 @@ class AlbumListViewModel @Inject constructor(
 	albumListActionProcessor: AlbumListActionProcessor,
 	albumListUserActionProcessor: AlbumListUserActionProcessor,
 	albumListReducer: AlbumListReducer,
+	dispatcherProvider: DispatcherProvider,
 ) : ViewModel() {
 	private val isTest = savedStateHandle.get<Boolean>(IS_TEST_FLAG) ?: false
 
 	private val model by model(
 		actionProcessors = listOf(albumListActionProcessor, albumListUserActionProcessor),
 		reducers = listOf(albumListReducer),
+		dispatcherProvider = dispatcherProvider,
 		initState = AlbumListState.DEFAULT
 	)
 	val uiState = model.uiState

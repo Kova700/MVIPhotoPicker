@@ -2,6 +2,7 @@ package com.kova700.mviphotopicker.feature.photo_list
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import com.kova700.mviphotopicker.common.DispatcherProvider
 import com.kova700.mviphotopicker.feature.base.architecture.model
 import com.kova700.mviphotopicker.feature.photo_list.architecture.PhotoListAction
 import com.kova700.mviphotopicker.feature.photo_list.architecture.PhotoListActionProcessor
@@ -18,12 +19,14 @@ class PhotoListViewModel @Inject constructor(
 	photoListActionProcessor: PhotoListActionProcessor,
 	photoListActionUserActionProcessor: PhotoListUserActionProcessor,
 	photoListReducer: PhotoListReducer,
+	dispatcherProvider: DispatcherProvider,
 ) : ViewModel() {
 	private val albumId = savedStateHandle.get<Long>(SELECTED_ALBUM_ID) ?: -1
 
 	private val model by model(
 		actionProcessors = listOf(photoListActionProcessor, photoListActionUserActionProcessor),
 		reducers = listOf(photoListReducer),
+		dispatcherProvider = dispatcherProvider,
 		initState = PhotoListState.DEFAULT
 	)
 	val uiState = model.uiState

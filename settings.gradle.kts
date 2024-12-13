@@ -27,10 +27,11 @@ include(":core:util")
 
 include(":feature:base")
 include(":feature:main")
-include(":feature:photo-detail")
+include(":feature:album-list")
 include(":feature:photo-list")
+include(":feature:photo-detail")
 
 include(":core:data:album:external", ":core:data:album:internal")
 include(":core:data:sticker:external", ":core:data:sticker:internal")
 include(":core:external-data:album", ":core:external-data:internal")
-include(":feature:album-list")
+include(":core:common")

@@ -16,6 +16,7 @@ dependencies {
 	implementation(project(":feature:base"))
 	implementation(project(":core:design-system"))
 	implementation(project(":core:permission"))
+	implementation(project(":core:common"))
 	implementation(project(":core:util"))
 
 	implementation(libs.findLibrary("androidx-core-ktx").get())
