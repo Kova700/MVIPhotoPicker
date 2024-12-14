@@ -9,4 +9,5 @@ android {
 
 dependencies {
 	implementation(project(":core:data:album:external"))
+	implementation(project(":core:common"))
 }

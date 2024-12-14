@@ -13,3 +13,11 @@ android {
 		consumerProguardFiles("proguard-rules.pro")
 	}
 }
+
+dependencies{
+	testImplementation(libs.findBundle("unit-test").get())
+}
+
+tasks.withType<Test> {
+	useJUnitPlatform()
+}

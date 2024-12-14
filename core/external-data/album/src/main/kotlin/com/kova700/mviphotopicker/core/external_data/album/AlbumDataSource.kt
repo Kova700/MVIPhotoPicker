@@ -6,19 +6,21 @@ import android.database.Cursor
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
+import com.kova700.mviphotopicker.common.DispatcherProvider
 import com.kova700.mviphotopicker.core.data.album.external.model.Album
 import com.kova700.mviphotopicker.core.data.album.external.model.Photo
+import kotlinx.coroutines.withContext
 import java.io.File
 import java.util.Date
 import javax.inject.Inject
 
 /** 페이징을 고려헀으나 갤러리 특성상 직관적인 UI를 위해 단일 쿼리 선택 */
 class AlbumDataSource @Inject constructor(
-	private val contentResolver: ContentResolver
+	private val contentResolver: ContentResolver,
+	private val dispatcherProvider: DispatcherProvider,
 ) {
 
-	fun getAllAlbums(): List<Album> {
-
+	suspend fun getAllAlbums(): List<Album> = withContext(dispatcherProvider.io) {
 		val projection = arrayOf(
 			INDEX_PHOTO_ID,
 			INDEX_PHOTO_URI,
@@ -35,7 +37,7 @@ class AlbumDataSource @Inject constructor(
 			null,
 			null,
 			sortOrder
-		) ?: return emptyList()
+		) ?: return@withContext emptyList()
 
 		val rows = mutableListOf<AlbumPhotoDTO>()
 		cursor.use {
@@ -43,7 +45,7 @@ class AlbumDataSource @Inject constructor(
 				rows.add(it.getRow() ?: continue)
 			}
 		}
-		return rows
+		return@withContext rows
 			.groupBy { it.albumId }
 			.map { (albumId, rows) ->
 				Album(
