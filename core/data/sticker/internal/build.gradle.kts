@@ -9,4 +9,5 @@ android {
 
 dependencies {
 	implementation(project(":core:data:sticker:external"))
+	implementation(project(":core:common"))
 }
