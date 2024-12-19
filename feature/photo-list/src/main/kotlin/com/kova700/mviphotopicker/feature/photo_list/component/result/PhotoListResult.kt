@@ -41,7 +41,10 @@ fun PhotoGrid(
 		horizontalArrangement = Arrangement.spacedBy(2.dp),
 		contentPadding = PaddingValues(vertical = 10.dp)
 	) {
-		items(photos) { photo ->
+		items(
+			items = photos,
+			key = { photo -> photo.id }
+		) { photo ->
 			PhotoItem(
 				photo = photo,
 				onClickPhoto = onClickPhoto

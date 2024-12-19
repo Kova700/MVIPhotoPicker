@@ -19,8 +19,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.kova700.mviphotopicker.core.data.album.external.model.Album
 import com.kova700.mviphotopicker.core.design_system.component.DefaultButton
-import com.kova700.mviphotopicker.core.design_system.theme.MediumBlue
 import com.kova700.mviphotopicker.core.design_system.theme.DefaultTypography
+import com.kova700.mviphotopicker.core.design_system.theme.MediumBlue
 import com.kova700.mviphotopicker.feature.album_list.R
 import com.kova700.mviphotopicker.feature.album_list.architecture.AlbumListState
 import com.kova700.mviphotopicker.feature.album_list.architecture.AlbumListState.PermissionState.Granted
@@ -84,7 +84,10 @@ fun AlbumGrid(
 			horizontal = 8.dp
 		)
 	) {
-		items(albums) { album ->
+		items(
+			items = albums,
+			key = { album -> album.id }
+		) { album ->
 			AlbumItem(
 				album = album,
 				onClick = onClickAlbum
