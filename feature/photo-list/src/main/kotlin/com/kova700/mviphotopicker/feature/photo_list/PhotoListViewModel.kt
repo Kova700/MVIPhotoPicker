@@ -21,6 +21,7 @@ class PhotoListViewModel @Inject constructor(
 	photoListReducer: PhotoListReducer,
 	dispatcherProvider: DispatcherProvider,
 ) : ViewModel() {
+	private val isTest = savedStateHandle.get<Boolean>(IS_TEST_FLAG) ?: false
 	private val albumId = savedStateHandle.get<Long>(SELECTED_ALBUM_ID) ?: -1
 
 	private val model by model(
@@ -33,8 +34,12 @@ class PhotoListViewModel @Inject constructor(
 	val event = model.event
 
 	init {
-		process(PhotoListAction.LoadPhotos(albumId))
+		if (isTest.not()) process(PhotoListAction.LoadPhotos(albumId))
 	}
 
 	fun process(action: PhotoListAction) = model.process(action)
+
+	companion object {
+		internal const val IS_TEST_FLAG = "IS_TEST_FLAG"
+	}
 }
