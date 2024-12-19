@@ -4,7 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.kova700.mviphotopicker.core.design_system.theme.SoftYellow
+import androidx.compose.ui.graphics.Color
 
 @Composable
 fun PhotoPlaceholder(
@@ -12,6 +12,6 @@ fun PhotoPlaceholder(
 ) {
 	Box(
 		modifier
-			.background(SoftYellow)
+			.background(Color.White)
 	)
 }
