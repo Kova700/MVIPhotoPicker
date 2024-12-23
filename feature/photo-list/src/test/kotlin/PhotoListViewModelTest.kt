@@ -35,9 +35,10 @@ class PhotoListViewModelTest : BehaviorSpec() {
 	)
 
 	private val fakeAlbumId = 1L
+	private val fakeAlbumTitle = "test Title"
 	private val fakeAlbum = Album(
 		id = fakeAlbumId,
-		title = "test Title",
+		title = fakeAlbumTitle,
 		photos = emptyList(),
 		coverPhotoUri = "Test Uri"
 	)
@@ -55,7 +56,10 @@ class PhotoListViewModelTest : BehaviorSpec() {
 							process(loadPhotosAction)
 							uiState.test {
 								awaitItem().uiState shouldBe PhotoListUiState.InitLoading
-								awaitItem().uiState shouldBe PhotoListUiState.PhotoItems(fakeAlbum.photos.toImmutableList())
+								with(awaitItem()) {
+									albumTitle shouldBe fakeAlbumTitle
+									uiState shouldBe PhotoListUiState.PhotoItems(fakeAlbum.photos.toImmutableList())
+								}
 							}
 							event.test { expectNoEvents() }
 						}
