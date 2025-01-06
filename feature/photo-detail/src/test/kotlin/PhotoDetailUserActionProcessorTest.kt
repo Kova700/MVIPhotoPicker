@@ -1,29 +1,16 @@
-import android.content.Context
-import android.graphics.Bitmap
 import app.cash.turbine.test
 import com.kova700.mviphotopicker.core.data.sticker.external.model.Sticker
-import com.kova700.mviphotopicker.core.util.saveImageToGallery
 import com.kova700.mviphotopicker.feature.photo_detail.architecture.PhotoDetailAction
 import com.kova700.mviphotopicker.feature.photo_detail.architecture.PhotoDetailEvent
 import com.kova700.mviphotopicker.feature.photo_detail.architecture.PhotoDetailMutation
 import com.kova700.mviphotopicker.feature.photo_detail.architecture.PhotoDetailUserActionProcessor
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.shouldBe
-import io.mockk.Runs
-import io.mockk.coEvery
-import io.mockk.coVerify
-import io.mockk.just
-import io.mockk.mockk
-import io.mockk.mockkStatic
-import io.mockk.unmockkStatic
 import kotlinx.coroutines.test.runTest
 
 class PhotoDetailUserActionProcessorTest : BehaviorSpec() {
-	private val mockContext = mockk<Context>()
 
-	private val actionProcessor = PhotoDetailUserActionProcessor(
-		context = mockContext,
-	)
+	private val actionProcessor = PhotoDetailUserActionProcessor()
 
 	init {
 		Given("PhotoDetailAction.ClickSticker") {
@@ -41,21 +28,15 @@ class PhotoDetailUserActionProcessorTest : BehaviorSpec() {
 		}
 
 		Given("PhotoDetailAction.ClickOverlay") {
-			val combinedImageBitmap = mockk<Bitmap>()
-			val action = PhotoDetailAction.ClickOverlay(combinedImageBitmap)
-			mockkStatic("com.kova700.mviphotopicker.core.util.ImageSaveUtilKt")
-			coEvery { mockContext.saveImageToGallery(combinedImageBitmap) } just Runs
-
-			Then("Bitmap must be saved as an image, emit ShowCombiningImagesLoader & NavigateToAlbumList Event") {
+			val action = PhotoDetailAction.ClickOverlay
+			Then("emit ShowCombiningImagesLoader & null") {
 				runTest {
 					actionProcessor(action).test {
-						coVerify { mockContext.saveImageToGallery(combinedImageBitmap) }
-						awaitItem() shouldBe (PhotoDetailMutation.ShowCombiningImagesLoader to PhotoDetailEvent.NavigateToAlbumList)
+						awaitItem() shouldBe (PhotoDetailMutation.ShowCombiningImagesLoader to null)
 						awaitComplete()
 					}
 				}
 			}
-			unmockkStatic("com.kova700.mviphotopicker.core.util.ImageSaveUtilKt")
 		}
 
 		Given("PhotoDetailAction.ClickBack") {

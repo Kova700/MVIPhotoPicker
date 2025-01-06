@@ -1,8 +1,12 @@
 package com.kova700.mviphotopicker.feature.photo_detail.architecture
 
+import android.content.Context
+import android.graphics.Bitmap
 import com.kova700.mviphotopicker.core.data.album.external.repository.AlbumRepository
 import com.kova700.mviphotopicker.core.data.sticker.external.repository.StickerRepository
+import com.kova700.mviphotopicker.core.util.saveImageToGallery
 import com.kova700.mviphotopicker.feature.base.architecture.ActionProcessor
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.flow
@@ -10,7 +14,8 @@ import javax.inject.Inject
 
 class PhotoDetailActionProcessor @Inject constructor(
 	private val albumRepository: AlbumRepository,
-	private val stickerRepository: StickerRepository
+	private val stickerRepository: StickerRepository,
+	@ApplicationContext private val context: Context
 ) : ActionProcessor<PhotoDetailAction, PhotoDetailMutation, PhotoDetailEvent> {
 
 	override fun invoke(action: PhotoDetailAction): Flow<Pair<PhotoDetailMutation?, PhotoDetailEvent?>> {
@@ -22,7 +27,7 @@ class PhotoDetailActionProcessor @Inject constructor(
 				)
 
 				PhotoDetailAction.LoadStickers -> loadStickers()
-				PhotoDetailAction.FinishSaveImages -> finishSaveImages()
+				is PhotoDetailAction.FinishImageCombine -> finishImageCombine(action.resultBitmap)
 
 				is PhotoDetailAction.ClickSticker,
 				is PhotoDetailAction.ClickBack,
@@ -56,7 +61,10 @@ class PhotoDetailActionProcessor @Inject constructor(
 			.onFailure { emit(PhotoDetailMutation.ShowStickerInitError to null) }
 	}
 
-	private suspend fun FlowCollector<Pair<PhotoDetailMutation?, PhotoDetailEvent?>>.finishSaveImages() {
+	private suspend fun FlowCollector<Pair<PhotoDetailMutation?, PhotoDetailEvent?>>.finishImageCombine(
+		resultBitmap: Bitmap?
+	) {
+		resultBitmap?.let { context.saveImageToGallery(it) }
 		emit(PhotoDetailMutation.HideCombiningImagesLoader to PhotoDetailEvent.NavigateToAlbumList)
 	}
 

@@ -1,25 +1,35 @@
+import android.content.Context
+import android.graphics.Bitmap
 import app.cash.turbine.test
 import com.kova700.mviphotopicker.core.data.album.external.model.Album
 import com.kova700.mviphotopicker.core.data.album.external.repository.AlbumRepository
 import com.kova700.mviphotopicker.core.data.sticker.external.model.Sticker
 import com.kova700.mviphotopicker.core.data.sticker.external.repository.StickerRepository
+import com.kova700.mviphotopicker.core.util.saveImageToGallery
 import com.kova700.mviphotopicker.feature.photo_detail.architecture.PhotoDetailAction
 import com.kova700.mviphotopicker.feature.photo_detail.architecture.PhotoDetailActionProcessor
 import com.kova700.mviphotopicker.feature.photo_detail.architecture.PhotoDetailEvent
 import com.kova700.mviphotopicker.feature.photo_detail.architecture.PhotoDetailMutation
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.shouldBe
+import io.mockk.Runs
 import io.mockk.coEvery
+import io.mockk.coVerify
+import io.mockk.just
 import io.mockk.mockk
+import io.mockk.mockkStatic
+import io.mockk.unmockkStatic
 import kotlinx.coroutines.test.runTest
 
 class PhotoDetailActionProcessorTest : BehaviorSpec() {
+	private val mockContext = mockk<Context>()
 	private val fakeAlbumRepository = mockk<AlbumRepository>()
 	private val fakeStickerRepository = mockk<StickerRepository>()
 
 	private val actionProcessor = PhotoDetailActionProcessor(
 		albumRepository = fakeAlbumRepository,
 		stickerRepository = fakeStickerRepository,
+		context = mockContext,
 	)
 	private val fakePhotoUri = "TestURi"
 	private val fakeAlbumId = 1L
@@ -104,20 +114,23 @@ class PhotoDetailActionProcessorTest : BehaviorSpec() {
 			}
 		}
 
+		Given("PhotoDetailAction.FinishImageCombine") {
+			val combinedImageBitmap = mockk<Bitmap>()
+			val action = PhotoDetailAction.FinishImageCombine(combinedImageBitmap)
+			mockkStatic("com.kova700.mviphotopicker.core.util.ImageSaveUtilKt")
+			coEvery { mockContext.saveImageToGallery(combinedImageBitmap) } just Runs
 
-		Given("PhotoDetailAction.FinishSaveImages") {
-			val action = PhotoDetailAction.FinishSaveImages
-
-			Then("emit HideCombiningImagesLoader & NavigateToAlbumListEvent") {
+			Then("Bitmap must be saved as an image, emit ShowCombiningImagesLoader & NavigateToAlbumList Event") {
 				runTest {
 					actionProcessor(action).test {
+						coVerify { mockContext.saveImageToGallery(combinedImageBitmap) }
 						awaitItem() shouldBe (PhotoDetailMutation.HideCombiningImagesLoader to PhotoDetailEvent.NavigateToAlbumList)
 						awaitComplete()
 					}
 				}
 			}
+			unmockkStatic("com.kova700.mviphotopicker.core.util.ImageSaveUtilKt")
 		}
-
 	}
 
 }

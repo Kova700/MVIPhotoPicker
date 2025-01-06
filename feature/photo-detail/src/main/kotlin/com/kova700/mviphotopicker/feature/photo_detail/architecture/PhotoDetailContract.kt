@@ -76,7 +76,9 @@ sealed interface PhotoDetailStickersUiState {
 sealed interface PhotoDetailAction : Action {
 	data class ClickSticker(val sticker: Sticker) : PhotoDetailAction
 	data object ClickBack : PhotoDetailAction
-	data class ClickOverlay(
+	data object ClickOverlay : PhotoDetailAction
+
+	data class FinishImageCombine(
 		val resultBitmap: Bitmap?
 	) : PhotoDetailAction
 
@@ -86,7 +88,6 @@ sealed interface PhotoDetailAction : Action {
 	) : PhotoDetailAction
 
 	data object LoadStickers : PhotoDetailAction
-	data object FinishSaveImages : PhotoDetailAction
 }
 
 sealed interface PhotoDetailMutation : Mutation {

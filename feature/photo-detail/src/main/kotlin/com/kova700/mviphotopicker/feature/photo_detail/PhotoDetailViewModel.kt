@@ -22,6 +22,7 @@ class PhotoDetailViewModel @Inject constructor(
 	photoDetailReducer: PhotoDetailReducer,
 	dispatcherProvider: DispatcherProvider,
 ) : ViewModel() {
+	private val isTest = savedStateHandle.get<Boolean>(IS_TEST_FLAG) ?: false
 	private val photoUri = savedStateHandle.get<String>(SELECTED_PHOTO_Uri) ?: ""
 	private val albumId = savedStateHandle.get<Long>(SELECTED_PHOTO_ALBUM_ID) ?: -1
 
@@ -35,14 +36,21 @@ class PhotoDetailViewModel @Inject constructor(
 	val event = model.event
 
 	init {
-		process(
-			PhotoDetailAction.LoadPhoto(
-				photoUri = photoUri,
-				albumId = albumId
+		if (isTest.not()) {
+			process(
+				PhotoDetailAction.LoadPhoto(
+					photoUri = photoUri,
+					albumId = albumId
+				)
 			)
-		)
-		process(PhotoDetailAction.LoadStickers)
+			process(PhotoDetailAction.LoadStickers)
+
+		}
 	}
 
 	fun process(action: PhotoDetailAction) = model.process(action)
+
+	companion object {
+		internal const val IS_TEST_FLAG = "IS_TEST_FLAG"
+	}
 }
